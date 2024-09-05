@@ -1,122 +1,130 @@
-import {
-  Anchor,
-  Button,
-  H1,
-  Paragraph,
-  Separator,
-  Sheet,
-  useToastController,
-  SwitchThemeButton,
-  SwitchRouterButton,
-  XStack,
-  YStack,
-} from '@my/ui'
-import { ChevronDown, ChevronUp, X } from '@tamagui/lucide-icons'
-import { useState } from 'react'
-import { Platform } from 'react-native'
-import { useLink } from 'solito/navigation'
+import React from 'react'
+import { SafeAreaView, ScrollView } from 'react-native'
+import { XStack, YStack, Text, Input, Avatar, Card, Button, useTheme, Image } from 'tamagui'
+import { Search, Bell } from '@tamagui/lucide-icons'
+import { colorTokens } from '@tamagui/themes'
+import { StyleSheet } from 'react-native'
 
-export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
-  const linkTarget = pagesMode ? '/pages-example-user' : '/user'
-  const linkProps = useLink({
-    href: `${linkTarget}/nate`,
-  })
+export function HomeScreen() {
+  const theme = useTheme()
 
   return (
-    <YStack f={1} jc="center" ai="center" gap="$8" p="$4" bg="$background">
-      <XStack
-        pos="absolute"
-        w="100%"
-        t="$6"
-        gap="$6"
-        jc="center"
-        fw="wrap"
-        $sm={{ pos: 'relative', t: 0 }}
-      >
-        {Platform.OS === 'web' && (
-          <>
-            <SwitchRouterButton pagesMode={pagesMode} />
-            <SwitchThemeButton />
-          </>
-        )}
-      </XStack>
-
-      <YStack gap="$4">
-        <H1 ta="center" col="$color12">
-          Welcome to Tamagui.
-        </H1>
-        <Paragraph col="$color10" ta="center">
-          Here's a basic starter to show navigating from one screen to another.
-        </Paragraph>
-        <Separator />
-        <Paragraph ta="center">
-          This screen uses the same code on Next.js and React Native.
-        </Paragraph>
-        <Separator />
-      </YStack>
-
-      <Button {...linkProps}>Link to user</Button>
-
-      <SheetDemo />
-    </YStack>
-  )
-}
-
-function SheetDemo() {
-  const toast = useToastController()
-
-  const [open, setOpen] = useState(false)
-  const [position, setPosition] = useState(0)
-
-  return (
-    <>
-      <Button
-        size="$6"
-        icon={open ? ChevronDown : ChevronUp}
-        circular
-        onPress={() => setOpen((x) => !x)}
-      />
-      <Sheet
-        modal
-        animation="medium"
-        open={open}
-        onOpenChange={setOpen}
-        snapPoints={[80]}
-        position={position}
-        onPositionChange={setPosition}
-        dismissOnSnapToBottom
-      >
-        <Sheet.Overlay animation="lazy" enterStyle={{ opacity: 0 }} exitStyle={{ opacity: 0 }} />
-        <Sheet.Handle bg="$gray8" />
-        <Sheet.Frame ai="center" jc="center" gap="$10" bg="$color2">
-          <XStack gap="$2">
-            <Paragraph ta="center">Made by</Paragraph>
-            <Anchor col="$blue10" href="https://twitter.com/natebirdman" target="_blank">
-              @natebirdman,
-            </Anchor>
-            <Anchor
-              color="$purple10"
-              href="https://github.com/tamagui/tamagui"
-              target="_blank"
-              rel="noreferrer"
-            >
-              give it a ⭐️
-            </Anchor>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView>
+        <YStack f={1} backgroundColor={'white'} p="$5" pt="$8">
+          <XStack ai="center" jc="space-between" mb="$4">
+            <Avatar circular size="$5">
+              <Avatar.Image
+                source={{
+                  uri: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR5v-SBWNA4W3KIwVOu4KhEGgfApbflgLXWsrgtTsASqs2cw-wJsyaLoQaWc7fV8jEksnDqfvA3Bv5kco0',
+                }}
+              />
+            </Avatar>
+            <Text fontSize="$6" fontWeight="bold">
+              Breaking News
+            </Text>
+            <Bell size={24} />
           </XStack>
 
-          <Button
-            size="$6"
-            circular
-            icon={ChevronDown}
-            onPress={() => {
-              setOpen(false)
-              toast.show('Sheet closed!', {
-                message: 'Just showing how toast works...',
-              })
-            }}
+          <Input
+            placeholder="Find interesting news"
+            mb="$4"
+            inputMode="search"
+            borderRadius="$10"
           />
-        </Sheet.Frame>
-      </Sheet>
-    </>
+
+          <XStack mb="$6">
+            <ScrollView horizontal={true}>
+              <Button size="$2" style={styles.gap10}>
+                Top News
+              </Button>
+              <Button size="$2" style={styles.gap10}>
+                For You
+              </Button>
+              <Button size="$2" style={styles.gap10}>
+                Politics
+              </Button>
+              <Button size="$2" style={styles.gap10}>
+                Tech Talks
+              </Button>
+              <Button size="$2" style={styles.gap10}>
+                Cooking
+              </Button>
+            </ScrollView>
+          </XStack>
+
+          <Card
+            elevate
+            animation="bouncy"
+            size="$4"
+            scale={0.9}
+            hoverStyle={{ scale: 0.925 }}
+            pressStyle={{ scale: 0.875 }}
+            bordered
+            mb="$4"
+            padding={'$4'}
+            borderRadius="$8"
+          >
+            <XStack>
+              <Card.Header padded>
+                <Button size="$3" theme="active">
+                  Outlined
+                </Button>
+              </Card.Header>
+            </XStack>
+            <Card.Footer mb="$2" mt="$10">
+              <XStack flex={1} space gap={'$10'}>
+                <Text color="white" fontSize="$3">
+                  34 blogs
+                </Text>
+                <Text color="white" fontSize="$3">
+                  1720 followers
+                </Text>
+              </XStack>
+            </Card.Footer>
+            <Card.Footer>
+              <Text fontSize="$6" fontWeight="bold" mb="$2" color="#ffffff">
+                Engineered-Escape coming soon ft. Parentheses labs
+              </Text>
+            </Card.Footer>
+            <Card.Background style={styles.cardBackground}>
+              <Image
+                style={styles.cardImage}
+                source={{
+                  uri: 'https://img.freepik.com/free-photo/realistic-stacked-books-shelf_23-2151359536.jpg',
+                }}
+              />
+            </Card.Background>
+          </Card>
+          <XStack gap="$14">
+            <Text fontSize="$6" fontWeight="bold" mb="$4">
+              Recommended
+            </Text>
+            <Text fontSize="$6" fontWeight="bold" mb="$4" color="$gray10">
+              See More
+            </Text>
+          </XStack>
+        </YStack>
+      </ScrollView>
+    </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  gap10: {
+    marginRight: 10,
+  },
+  cardBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  cardImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+    borderRadius: 20,
+  },
+})
