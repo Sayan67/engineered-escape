@@ -4,14 +4,16 @@ import { XStack, YStack, Text, Input, Avatar, Card, Button, useTheme, Image } fr
 import { Search, Bell } from '@tamagui/lucide-icons'
 import { colorTokens } from '@tamagui/themes'
 import { StyleSheet } from 'react-native'
+import { NewCard } from 'packages/app/components/card'
 
 export function HomeScreen() {
   const theme = useTheme()
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView>
-        <YStack f={1} backgroundColor={'white'} p="$5" pt="$8">
+      <YStack f={1} backgroundColor={'#FFFFFF'} p="$5" pt="$8">
+        {/* Fixed Header Section */}
+        <YStack style={styles.fixedHeader} backgroundColor={'#FFFFFF'}>
           <XStack ai="center" jc="space-between" mb="$4">
             <Avatar circular size="$5">
               <Avatar.Image
@@ -52,65 +54,91 @@ export function HomeScreen() {
               </Button>
             </ScrollView>
           </XStack>
-
-          <Card
-            elevate
-            animation="bouncy"
-            size="$4"
-            scale={0.9}
-            hoverStyle={{ scale: 0.925 }}
-            pressStyle={{ scale: 0.875 }}
-            bordered
-            mb="$4"
-            padding={'$4'}
-            borderRadius="$8"
-          >
-            <XStack>
-              <Card.Header padded>
-                <Button size="$3" theme="active">
-                  Outlined
-                </Button>
-              </Card.Header>
-            </XStack>
-            <Card.Footer mb="$2" mt="$10">
-              <XStack flex={1} space gap={'$10'}>
-                <Text color="white" fontSize="$3">
-                  34 blogs
-                </Text>
-                <Text color="white" fontSize="$3">
-                  1720 followers
-                </Text>
-              </XStack>
-            </Card.Footer>
-            <Card.Footer>
-              <Text fontSize="$6" fontWeight="bold" mb="$2" color="#ffffff">
-                Engineered-Escape coming soon ft. Parentheses labs
-              </Text>
-            </Card.Footer>
-            <Card.Background style={styles.cardBackground}>
-              <Image
-                style={styles.cardImage}
-                source={{
-                  uri: 'https://img.freepik.com/free-photo/realistic-stacked-books-shelf_23-2151359536.jpg',
-                }}
-              />
-            </Card.Background>
-          </Card>
-          <XStack gap="$14">
-            <Text fontSize="$6" fontWeight="bold" mb="$4">
-              Recommended
-            </Text>
-            <Text fontSize="$6" fontWeight="bold" mb="$4" color="$gray10">
-              See More
-            </Text>
-          </XStack>
         </YStack>
-      </ScrollView>
+
+        {/* Scrollable Content Section */}
+        <ScrollView
+          style={styles.scrollableContent}
+          contentContainerStyle={styles.scrollableContentContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          <YStack backgroundColor={'#FFFFFF'}>
+            <Card
+              elevate
+              animation="bouncy"
+              size="$4"
+              scale={0.9}
+              hoverStyle={{ scale: 0.925 }}
+              pressStyle={{ scale: 0.875 }}
+              mb="$4"
+              padding={'$4'}
+              borderRadius="$8"
+            >
+              <XStack>
+                <Card.Header padded>
+                  <Button size="$3" theme="active">
+                    Hot Topic
+                  </Button>
+                </Card.Header>
+              </XStack>
+              <Card.Footer mb="$2" mt="$10">
+                <XStack flex={1} space gap={'$10'}>
+                  <Text color="white" fontSize="$3">
+                    34 blogs
+                  </Text>
+                  <Text color="white" fontSize="$3">
+                    1720 followers
+                  </Text>
+                </XStack>
+              </Card.Footer>
+              <Card.Footer>
+                <Text fontSize="$6" fontWeight="bold" mb="$2" color="#ffffff">
+                  Engineered-Escape coming soon ft. Parentheses labs
+                </Text>
+              </Card.Footer>
+              <Card.Background style={styles.cardBackground}>
+                <Image
+                  style={styles.cardImage}
+                  source={{
+                    uri: 'https://img.freepik.com/free-photo/realistic-stacked-books-shelf_23-2151359536.jpg',
+                  }}
+                />
+              </Card.Background>
+            </Card>
+            <XStack gap="$14">
+              <Text fontSize="$6" fontWeight="bold" mb="$4">
+                Recommended
+              </Text>
+              <Text fontSize="$6" fontWeight="bold" mb="$4" color="$gray10">
+                See More
+              </Text>
+            </XStack>
+            <NewCard />
+          </YStack>
+        </ScrollView>
+      </YStack>
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
+  fixedHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+    backgroundColor: 'white',
+    paddingHorizontal: 20,
+    paddingTop: 30,
+  },
+  scrollableContent: {
+    marginTop: 180,
+    backgroundColor: 'white',
+  },
+  scrollableContentContainer: {
+    backgroundColor: 'white',
+  },
   gap10: {
     marginRight: 10,
   },
@@ -126,5 +154,10 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'cover',
     borderRadius: 20,
+  },
+  thumbnail: {
+    width: 80,
+    height: 80,
+    borderRadius: 8,
   },
 })
