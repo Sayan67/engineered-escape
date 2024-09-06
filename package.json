@@ -30,6 +30,8 @@
   "dependencies": {
     "@babel/runtime": "^7.24.6",
     "@manypkg/cli": "^0.21.4",
+    "@react-navigation/bottom-tabs": "^6.6.1",
+    "@react-navigation/stack": "^6.4.1",
     "check-dependency-version-consistency": "^4.1.0",
     "eslint": "^9.3.0",
     "node-gyp": "^10.1.0",
