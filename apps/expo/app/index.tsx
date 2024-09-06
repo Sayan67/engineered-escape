@@ -12,56 +12,52 @@ const Tab = createBottomTabNavigator()
 
 function HomeStack() {
   return (
-    <NavigationContainer independent={true}>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
-        <Stack.Screen
-          name="Bookmarks"
-          component={BookmarksScreen}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Bookmarks" component={BookmarksScreen} options={{ headerShown: false }} />
+    </Stack.Navigator>
   )
 }
 
 export default function App() {
   return (
-    <NavigationContainer independent={true}>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ color, size }) => {
-            let iconName
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName
 
-            if (route.name === 'Home') {
-              iconName = 'home'
-            } else if (route.name === 'Profile') {
-              iconName = 'person'
-            } else if (route.name === 'Bookmarks') {
-              iconName = 'bookmark'
-            }
+          if (route.name === 'HomeTab') {
+            iconName = 'home'
+          } else if (route.name === 'ProfileTab') {
+            iconName = 'person'
+          } else if (route.name === 'BookmarksTab') {
+            iconName = 'bookmark'
+          }
 
-            return <Ionicons name={iconName} size={size} color={color} />
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: 'blue',
-          inactiveTintColor: 'gray',
-          style: {
-            backgroundColor: 'white',
-            borderTopWidth: 0,
-            elevation: 5,
-          },
-          labelStyle: {
-            fontSize: 12,
-          },
-        }}
-      >
-        <Tab.Screen name="Home" component={HomeStack} options={{ headerShown: false }} />
-        <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
-        <Tab.Screen name="Bookmarks" component={BookmarksScreen} options={{ headerShown: false }} />
-      </Tab.Navigator>
-    </NavigationContainer>
+          return <Ionicons name={iconName} size={size} color={color} />
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: 'blue',
+        inactiveTintColor: 'gray',
+        style: {
+          backgroundColor: 'white',
+          borderTopWidth: 0,
+          elevation: 5,
+        },
+        labelStyle: {
+          fontSize: 12,
+        },
+      }}
+    >
+      <Tab.Screen name="HomeTab" component={HomeStack} options={{ headerShown: false }} />
+      <Tab.Screen name="ProfileTab" component={ProfileScreen} options={{ headerShown: false }} />
+      <Tab.Screen
+        name="BookmarksTab"
+        component={BookmarksScreen}
+        options={{ headerShown: false }}
+      />
+    </Tab.Navigator>
   )
 }

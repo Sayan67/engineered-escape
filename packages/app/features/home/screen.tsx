@@ -2,7 +2,6 @@ import React from 'react'
 import { SafeAreaView, ScrollView } from 'react-native'
 import { XStack, YStack, Text, Input, Avatar, Card, Button, useTheme, Image } from 'tamagui'
 import { Search, Bell } from '@tamagui/lucide-icons'
-import { colorTokens } from '@tamagui/themes'
 import { StyleSheet } from 'react-native'
 import { NewCard } from 'packages/app/components/card'
 import { TouchableOpacity } from 'react-native'
@@ -14,61 +13,55 @@ export function HomeScreen() {
 
   return (
     <>
-      <SafeAreaView style={{ flex: 1 }}>
-        <YStack f={1} backgroundColor={'#FFFFFF'} p="$5" pt="$8">
-          {/* Fixed Header Section */}
-          <YStack style={styles.fixedHeader} backgroundColor={'#FFFFFF'}>
-            <XStack ai="center" jc="space-between" mb="$4">
-              <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-                <Avatar circular size="$5">
-                  <Avatar.Image
-                    source={{
-                      uri: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR5v-SBWNA4W3KIwVOu4KhEGgfApbflgLXWsrgtTsASqs2cw-wJsyaLoQaWc7fV8jEksnDqfvA3Bv5kco0',
-                    }}
-                  />
-                </Avatar>
-              </TouchableOpacity>
-              <Text fontSize="$6" fontWeight="bold">
-                Breaking News
-              </Text>
-              <Bell size={24} />
-            </XStack>
-
-            <Input
-              placeholder="Find interesting news"
-              mb="$4"
-              inputMode="search"
-              borderRadius="$10"
-            />
-
-            <XStack mb="$6">
-              <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                <Button size="$2" style={styles.gap10}>
-                  Top News
-                </Button>
-                <Button size="$2" style={styles.gap10}>
-                  For You
-                </Button>
-                <Button size="$2" style={styles.gap10}>
-                  Politics
-                </Button>
-                <Button size="$2" style={styles.gap10}>
-                  Tech Talks
-                </Button>
-                <Button size="$2" style={styles.gap10}>
-                  Cooking
-                </Button>
-              </ScrollView>
-            </XStack>
-          </YStack>
-
-          {/* Scrollable Content Section */}
-          <ScrollView
-            style={styles.scrollableContent}
-            contentContainerStyle={styles.scrollableContentContainer}
-            showsVerticalScrollIndicator={false}
-          >
+      <SafeAreaView style={{ flex: 1, paddingTop: 8 }}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <YStack f={1} backgroundColor={'#FFFFFF'} p="$5" pt="$8">
+            {/* Fixed Header Section */}
             <YStack backgroundColor={'#FFFFFF'}>
+              <XStack ai="center" jc="space-between" mb="$4">
+                <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+                  <Avatar circular size="$5">
+                    <Avatar.Image
+                      source={{
+                        uri: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR5v-SBWNA4W3KIwVOu4KhEGgfApbflgLXWsrgtTsASqs2cw-wJsyaLoQaWc7fV8jEksnDqfvA3Bv5kco0',
+                      }}
+                    />
+                  </Avatar>
+                </TouchableOpacity>
+                <Text fontSize="$6" fontWeight="bold">
+                  Breaking News
+                </Text>
+                <Bell size={24} />
+              </XStack>
+
+              <Input
+                placeholder="Find interesting news"
+                mb="$4"
+                inputMode="search"
+                borderRadius="$10"
+              />
+
+              <XStack mb="$6">
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                  <Button size="$2" style={styles.gap10}>
+                    Top News
+                  </Button>
+                  <Button size="$2" style={styles.gap10}>
+                    For You
+                  </Button>
+                  <Button size="$2" style={styles.gap10}>
+                    Politics
+                  </Button>
+                  <Button size="$2" style={styles.gap10}>
+                    Tech Talks
+                  </Button>
+                  <Button size="$2" style={styles.gap10}>
+                    Cooking
+                  </Button>
+                </ScrollView>
+              </XStack>
+            </YStack>
+            <YStack>
               <Card
                 elevate
                 animation="bouncy"
@@ -121,8 +114,8 @@ export function HomeScreen() {
               </XStack>
               <NewCard />
             </YStack>
-          </ScrollView>
-        </YStack>
+          </YStack>
+        </ScrollView>
       </SafeAreaView>
     </>
   )
