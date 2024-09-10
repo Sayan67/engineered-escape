@@ -1,9 +1,31 @@
 import React from 'react'
-import { SafeAreaView, ScrollView } from 'react-native'
+import { SafeAreaView, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
 import { XStack, YStack, Text, Input, Avatar, Card, Button, useTheme, Image } from 'tamagui'
-import { StyleSheet } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
+import { useBookmarks } from 'app/features/bookmarks/context'
 
 export function NewCard() {
+  const { bookmarks, addBookmark, removeBookmark } = useBookmarks()
+
+  const cardData = {
+    id: 1,
+    title: 'We want justice.',
+    category: 'Education',
+    uri: 'https://img.freepik.com/free-photo/realistic-stacked-books-shelf_23-2151359536.jpg',
+    author: 'Sayan Das',
+    date: 'Sep 06, 2024',
+  }
+
+  const isBookmarked = (cardId) => bookmarks.some((card) => card.id === cardId)
+
+  const handleBookmarkToggle = (card) => {
+    if (isBookmarked(card.id)) {
+      removeBookmark(card.id)
+    } else {
+      addBookmark(card)
+    }
+  }
+
   return (
     <YStack space="$4" backgroundColor={'#FFFFFF'}>
       {/* First Card */}
@@ -18,124 +40,45 @@ export function NewCard() {
         padding={'$4'}
         borderRadius="$8"
       >
-        <XStack ai="center">
-          <Image
-            style={styles.thumbnail}
-            source={{
-              uri: 'https://img.freepik.com/free-photo/realistic-stacked-books-shelf_23-2151359536.jpg',
-            }}
-          />
-          <YStack ml="$3">
-            <Text fontSize="$5" fontWeight="bold">
-              We want justice.
-            </Text>
-            <Text fontSize="$4" color="$gray10">
-              Education
-            </Text>
-            <XStack ai="center" mt="$1">
-              <Avatar circular size="$2" mr="$2">
-                <Avatar.Image
-                  source={{
-                    uri: 'https://i0.wp.com/sportytell.com/wp-content/uploads/2018/11/Cristiano-Ronaldo-celebrates-with-2016-Euros-trophy-.jpg?zoom=1.25&resize=680%2C849&ssl=1',
-                  }}
-                />
-              </Avatar>
-              <Text fontSize="$3" color="$gray10">
-                Sayan Das
+        <XStack ai="center" justifyContent="space-between">
+          <XStack ai="center">
+            <Image
+              style={styles.thumbnail}
+              source={{
+                uri: cardData.uri,
+              }}
+            />
+            <YStack ml="$3">
+              <Text fontSize="$5" fontWeight="bold">
+                {cardData.title}
+                <TouchableOpacity onPress={() => handleBookmarkToggle(cardData)}>
+                  <Ionicons
+                    name={isBookmarked(cardData.id) ? 'bookmark' : 'bookmark-outline'}
+                    size={24}
+                    color="black"
+                  />
+                </TouchableOpacity>
               </Text>
-              <Text fontSize="$3" color="$gray10" ml="$3">
-                Sep 06, 2024
+              <Text fontSize="$4" color="$gray10">
+                {cardData.category}
               </Text>
-            </XStack>
-          </YStack>
-        </XStack>
-      </Card>
-      {/* Second Card */}
-      <Card
-        elevate
-        animation="bouncy"
-        size="$4"
-        scale={0.9}
-        hoverStyle={{ scale: 0.925 }}
-        pressStyle={{ scale: 0.875 }}
-        bordered
-        padding={'$4'}
-        borderRadius="$8"
-      >
-        <XStack ai="center">
-          <Image
-            style={styles.thumbnail}
-            source={{
-              uri: 'https://img.freepik.com/free-photo/realistic-stacked-books-shelf_23-2151359536.jpg',
-            }}
-          />
-          <YStack ml="$3">
-            <Text fontSize="$5" fontWeight="bold">
-              We want justice.
-            </Text>
-            <Text fontSize="$4" color="$gray10">
-              Education
-            </Text>
-            <XStack ai="center" mt="$1">
-              <Avatar circular size="$2" mr="$2">
-                <Avatar.Image
-                  source={{
-                    uri: 'https://i0.wp.com/sportytell.com/wp-content/uploads/2018/11/Cristiano-Ronaldo-celebrates-with-2016-Euros-trophy-.jpg?zoom=1.25&resize=680%2C849&ssl=1',
-                  }}
-                />
-              </Avatar>
-              <Text fontSize="$3" color="$gray10">
-                Sayan Das
-              </Text>
-              <Text fontSize="$3" color="$gray10" ml="$3">
-                Sep 06, 2024
-              </Text>
-            </XStack>
-          </YStack>
-        </XStack>
-      </Card>
-      {/* Third Card */}
-      <Card
-        elevate
-        animation="bouncy"
-        size="$4"
-        scale={0.9}
-        hoverStyle={{ scale: 0.925 }}
-        pressStyle={{ scale: 0.875 }}
-        bordered
-        padding={'$4'}
-        borderRadius="$8"
-      >
-        <XStack ai="center">
-          <Image
-            style={styles.thumbnail}
-            source={{
-              uri: 'https://img.freepik.com/free-photo/realistic-stacked-books-shelf_23-2151359536.jpg',
-            }}
-          />
-          <YStack ml="$3">
-            <Text fontSize="$5" fontWeight="bold">
-              We want justice.
-            </Text>
-            <Text fontSize="$4" color="$gray10">
-              Education
-            </Text>
-            <XStack ai="center" mt="$1">
-              <Avatar circular size="$2" mr="$2">
-                <Avatar.Image
-                  source={{
-                    uri: 'https://i0.wp.com/sportytell.com/wp-content/uploads/2018/11/Cristiano-Ronaldo-celebrates-with-2016-Euros-trophy-.jpg?zoom=1.25&resize=680%2C849&ssl=1',
-                  }}
-                />
-              </Avatar>
-              <Text fontSize="$3" color="$gray10">
-                Sayan Das
-              </Text>
-              <Text fontSize="$3" color="$gray10" ml="$3">
-                Sep 06, 2024
-              </Text>
-            </XStack>
-          </YStack>
+              <XStack ai="center" mt="$1">
+                <Avatar circular size="$2" mr="$2">
+                  <Avatar.Image
+                    source={{
+                      uri: cardData.uri,
+                    }}
+                  />
+                </Avatar>
+                <Text fontSize="$3" color="$gray10">
+                  {cardData.author}
+                </Text>
+                <Text fontSize="$3" color="$gray10" ml="$3">
+                  {cardData.date}
+                </Text>
+              </XStack>
+            </YStack>
+          </XStack>
         </XStack>
       </Card>
     </YStack>
