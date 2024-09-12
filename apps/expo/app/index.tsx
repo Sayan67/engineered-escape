@@ -10,6 +10,7 @@ import { BookmarksProvider } from 'app/features/bookmarks/context'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button, Input, SizeTokens, Text, XStack, YStack, Form, Spinner } from 'tamagui'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as SecureStore from 'expo-secure-store'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -30,8 +31,23 @@ function HomeStack() {
 
 export default function App() {
   const [isFirstLaunch, setIsFirstLaunch] = React.useState(true)
-  const user = undefined
-  if (!user) return <Landing />
+  React.useEffect(() => {
+    async function fetchData() {
+      try {
+        const name = await SecureStore.getItemAsync('userName')
+        const email = await SecureStore.getItemAsync('userEmail')
+        if (name !== null && email !== null) {
+          setIsFirstLaunch(false)
+        }
+        console.log(name, email)
+      } catch (error) {
+        console.log('Error :', error)
+      }
+    }
+    fetchData()
+  }, [])
+
+  if (isFirstLaunch) return <Landing setIsFirstLaunch={setIsFirstLaunch} />
   return (
     <BookmarksProvider>
       <NavigationContainer independent={true}>
@@ -84,7 +100,7 @@ interface LoginProp {
   email: string
 }
 
-function Landing() {
+function Landing(props: { setIsFirstLaunch: (a: boolean) => void }) {
   // State to store login details
   const [loginDetails, setLoginDetails] = React.useState<LoginProp>({ name: '', email: '' })
   const [buttonState, setButtonState] = React.useState(false)
@@ -97,12 +113,19 @@ function Landing() {
       setLoginDetails({ ...loginDetails, name: e })
     }
   }
-  function handlePress() {
-    console.log('User details : ', loginDetails)
-    setButtonState(true)
-    setTimeout(() => {
-      setButtonState(false)
-    }, 2000)
+  const handlePress = async () => {
+    if (loginDetails.name && loginDetails.email) {
+      try {
+        // Save name and email in AsyncStorage
+        await SecureStore.setItemAsync('userName', loginDetails.name)
+        await SecureStore.setItemAsync('userEmail', loginDetails.email)
+        props.setIsFirstLaunch(false) // Hide form after saving
+      } catch (error) {
+        console.log('Error saving to SecureStore:', error)
+      }
+    } else {
+      alert('Please enter both name and email.')
+    }
   }
   return (
     <SafeAreaView>
