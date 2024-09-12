@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "Engineered Escape",
-    "slug": "Engineered Escape",
-    "scheme": "Engineered Escape",
+    "slug": "engineered-escape",
+    "scheme": "engineered-escape",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,14 +18,14 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourprojectsname.app"
+      "bundleIdentifier": "com.engineered-escape.app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.yourprojectsname.app"
+      "package": "com.engineeredescape.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
