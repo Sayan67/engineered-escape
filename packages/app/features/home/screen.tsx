@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView, ScrollView } from 'react-native'
 import { XStack, YStack, Text, Input, Avatar, Card, Button, useTheme, Image } from 'tamagui'
 import { Search, Bell } from '@tamagui/lucide-icons'
@@ -6,6 +6,7 @@ import { StyleSheet } from 'react-native'
 import { NewCard } from 'packages/app/components/card'
 import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import { fetchBlogPosts } from 'packages/app/utils/api'
 
 export function HomeScreen() {
   const theme = useTheme()
