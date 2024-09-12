@@ -31,7 +31,7 @@ function HomeStack() {
 export default function App() {
   const [isFirstLaunch, setIsFirstLaunch] = React.useState(true)
   const user = undefined
-  if (!user) return <Landing />
+  // if (!user) return <Landing />
   return (
     <BookmarksProvider>
       <NavigationContainer independent={true}>

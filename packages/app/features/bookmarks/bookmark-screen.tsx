@@ -1,12 +1,23 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useBookmarks } from './context'
 import { Image } from 'tamagui'
 import { Card, XStack, YStack } from 'tamagui'
+import { fetchBlogPosts } from 'packages/app/utils/api'
+import { useNavigation } from '@react-navigation/native'
 
 export function BookmarksScreen() {
   const { bookmarks } = useBookmarks()
+  const [blogPosts, setBlogPosts] = useState([])
+  const navigation = useNavigation()
 
+  useEffect(() => {
+    const getBlogPosts = async () => {
+      const posts = await fetchBlogPosts()
+      setBlogPosts(posts)
+    }
+    getBlogPosts()
+  }, [])
   return (
     <SafeAreaView style={{ flex: 1, paddingTop: 8 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
