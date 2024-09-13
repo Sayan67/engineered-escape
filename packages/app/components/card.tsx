@@ -51,25 +51,21 @@ export function NewCard() {
             <YStack ml="$3">
               <Text fontSize="$5" fontWeight="bold">
                 {cardData.title}
-                <TouchableOpacity onPress={() => handleBookmarkToggle(cardData)}>
-                  <Ionicons
-                    name={isBookmarked(cardData.id) ? 'bookmark' : 'bookmark-outline'}
-                    size={24}
-                    color="black"
-                  />
-                </TouchableOpacity>
+                <XStack ai="center" jc="space-between">
+                  <TouchableOpacity onPress={() => handleBookmarkToggle(cardData)}>
+                    <Ionicons
+                      name={isBookmarked(cardData.id) ? 'bookmark' : 'bookmark-outline'}
+                      size={24}
+                      color="black"
+                      style={{ marginLeft: 25, marginBottom: -5 }}
+                    />
+                  </TouchableOpacity>
+                </XStack>
               </Text>
               <Text fontSize="$4" color="$gray10">
                 {cardData.category}
               </Text>
               <XStack ai="center" mt="$1">
-                <Avatar circular size="$2" mr="$2">
-                  <Avatar.Image
-                    source={{
-                      uri: cardData.uri,
-                    }}
-                  />
-                </Avatar>
                 <Text fontSize="$3" color="$gray10">
                   {cardData.author}
                 </Text>
