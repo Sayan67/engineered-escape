@@ -36,6 +36,7 @@
     "axios": "^1.7.7",
     "check-dependency-version-consistency": "^4.1.0",
     "eslint": "^9.3.0",
+    "expo-secure-store": "^13.0.2",
     "node-gyp": "^10.1.0",
     "prettier": "^3.2.5",
     "turbo": "^1.13.3",
