@@ -1,16 +1,22 @@
 import React, { createContext, useState, useContext } from 'react'
 
-const BookmarksContext = createContext({})
+export const BookmarksContext = createContext({})
+
+interface stateProp {
+  blogId: number
+  title: string
+}
 
 export const BookmarksProvider = ({ children }) => {
-  const [bookmarks, setBookmarks] = useState<any[]>([])
+  const [bookmarks, setBookmarks] = useState<stateProp[]>([])
 
-  const addBookmark = (blog) => {
-    setBookmarks((prevBookmarks) => [...prevBookmarks, blog])
+  const addBookmark = (blogId: number, title: string) => {
+    const newObj = [...bookmarks, { blogId, title }]
+    setBookmarks(newObj)
   }
 
-  const removeBookmark = (blogId) => {
-    setBookmarks((prevBookmarks) => prevBookmarks.filter((blog) => blog.id !== blogId))
+  const removeBookmark = (blogId: number) => {
+    setBookmarks((prevBookmarks) => prevBookmarks.filter((blog) => blog.blogId !== blogId))
   }
 
   return (
@@ -20,4 +26,9 @@ export const BookmarksProvider = ({ children }) => {
   )
 }
 
-export const useBookmarks = () => useContext(BookmarksContext)
+export const useBookmarks = () =>
+  useContext(BookmarksContext) as {
+    bookmarks: { blogId: number; title: string }[]
+    addBookmark: (blogId: number, title: string) => void
+    removeBookmark: (blogId: number) => void
+  }

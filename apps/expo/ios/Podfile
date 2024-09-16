@@ -77,3 +77,6 @@ target 'EngineeredEscape' do
     end
   end
 end
+
+pod 'RNTextGradientView',
+  :path => "../../../node_modules/react-native-text-gradient"

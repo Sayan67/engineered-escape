@@ -8,9 +8,23 @@ import { ProfileScreen } from 'app/features/profile/profile-screen'
 import { BookmarksScreen } from 'app/features/bookmarks/bookmark-screen'
 import { BookmarksProvider } from 'app/features/bookmarks/context'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Button, Input, SizeTokens, Text, XStack, YStack, Form, Spinner } from 'tamagui'
+import {
+  Button,
+  Input,
+  SizeTokens,
+  Text,
+  XStack,
+  YStack,
+  Form,
+  Spinner,
+  View,
+  Image,
+} from 'tamagui'
+import { LinearGradient } from 'tamagui/linear-gradient'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as SecureStore from 'expo-secure-store'
+import { createUser } from './api/createUser'
+import { Redirect } from 'expo-router'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -34,12 +48,14 @@ export default function App() {
   React.useEffect(() => {
     async function fetchData() {
       try {
-        const name = await SecureStore.getItemAsync('userName')
-        const email = await SecureStore.getItemAsync('userEmail')
+        const name = (await SecureStore.getItemAsync('userName')) as string
+        const email = (await SecureStore.getItemAsync('userEmail')) as string
+
         if (name !== null && email !== null) {
           setIsFirstLaunch(false)
         }
-        console.log(name, email)
+        // await SecureStore.deleteItemAsync('userName')
+        // await SecureStore.deleteItemAsync('userEmail')
       } catch (error) {
         console.log('Error :', error)
       }
@@ -66,7 +82,7 @@ export default function App() {
 
               return <Ionicons name={iconName} size={size} color={color} />
             },
-            tabBarActiveTintColor: 'blue',
+            tabBarActiveTintColor: '#F13B13',
             tabBarInactiveTintColor: 'gray',
             tabBarStyle: {
               backgroundColor: 'white',
@@ -79,11 +95,11 @@ export default function App() {
           })}
         >
           <Tab.Screen name="HomeTab" component={HomeStack} options={{ headerShown: false }} />
-          <Tab.Screen
+          {/* <Tab.Screen
             name="ProfileTab"
             component={ProfileScreen}
             options={{ headerShown: false }}
-          />
+          /> */}
           <Tab.Screen
             name="BookmarksTab"
             component={BookmarksScreen}
@@ -115,14 +131,25 @@ function Landing(props: { setIsFirstLaunch: (a: boolean) => void }) {
   }
   const handlePress = async () => {
     if (loginDetails.name && loginDetails.email) {
-      try {
-        // Save name and email in AsyncStorage
-        await SecureStore.setItemAsync('userName', loginDetails.name)
-        await SecureStore.setItemAsync('userEmail', loginDetails.email)
-        props.setIsFirstLaunch(false) // Hide form after saving
-      } catch (error) {
-        console.log('Error saving to SecureStore:', error)
-      }
+      // try {
+      // Save name and email in AsyncStorage
+      setButtonState(true)
+      createUser(loginDetails.name, loginDetails.email)
+        .then(async (res) => {
+          if (res.status === 200) {
+            await SecureStore.setItemAsync('userName', loginDetails.name)
+            await SecureStore.setItemAsync('userEmail', loginDetails.email)
+            props.setIsFirstLaunch(false) // Hide form after saving
+            setButtonState(false)
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+          return <Redirect href={'/'} />
+        })
+      // } catch (error) {
+      // console.log('Error saving to SecureStore:', error)
+      // }
     } else {
       alert('Please enter both name and email.')
     }
@@ -133,26 +160,40 @@ function Landing(props: { setIsFirstLaunch: (a: boolean) => void }) {
         width="100%"
         minHeight={250}
         overflow="hidden"
-        space="$2"
-        margin="$3"
-        paddingHorizontal="$4"
+        space="$5"
+        paddingHorizontal="$6"
         justifyContent="center"
         height="100%"
         alignItems="center"
       >
+        <View alignItems="center">
+          {/* <Image
+            source={{ uri: './assets/logo.png', width: 100, height: 100 }}
+            width={100}
+            height={100}
+          /> */}
+          <Text fontSize={28} fontWeight={'bold'} color="#F13B13" marginBottom={10}>
+            Engineered Escape
+          </Text>
+          <Text fontSize={15} color="black" textAlign="center" marginVertical={16}>
+            Please enter your details to start a magical journey with Engineered Escape
+          </Text>
+        </View>
         <InputDemo size="Enter your name" handleChange={handleChange} id="name" />
         <InputDemo size="Enter your email" handleChange={handleChange} id="email" />
-        <Text>{loginDetails.email}</Text>
         <Form.Trigger
           asChild
           disabled={
             buttonState || loginDetails.name.length === 0 || loginDetails.email.length === 0
           }
+          marginTop="$5"
         >
           <Button
             size="$5"
             theme={'active'}
             onPress={handlePress}
+            backgroundColor="#F13B13"
+            color={'white'}
             icon={buttonState ? () => <Spinner /> : undefined}
           >
             Get started
@@ -175,6 +216,7 @@ function InputDemo(props: {
         flex={1}
         placeholder={props.size}
         onChangeText={(e: string) => props.handleChange(e, props.id)}
+        autoCapitalize="none"
       />
     </XStack>
   )

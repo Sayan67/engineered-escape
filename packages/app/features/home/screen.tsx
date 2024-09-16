@@ -1,16 +1,53 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SafeAreaView, ScrollView } from 'react-native'
-import { XStack, YStack, Text, Input, Avatar, Card, Button, useTheme, Image } from 'tamagui'
+import { XStack, YStack, Text, Input, Avatar, Card, Button, useTheme, Image, Anchor } from 'tamagui'
 import { Search, Bell } from '@tamagui/lucide-icons'
 import { StyleSheet } from 'react-native'
 import { NewCard } from 'packages/app/components/card'
 import { TouchableOpacity } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { fetchBlogs } from '../api/fetchBlogs'
+import { Link } from 'expo-router'
+
+interface cardProp {
+  data: {
+    id: number
+    attributes: {
+      title: string
+      content: string
+      author: string
+      date: string
+      category: string
+      image: {
+        data: {
+          attributes: {
+            formats: {
+              small: { url: string }
+              thumbnail: { url: string }
+            }
+          }
+        }
+      }
+    }
+  }[]
+}
 
 export function HomeScreen() {
   const theme = useTheme()
-  const navigation = useNavigation()
-
+  const [blogs, setBlogs] = React.useState<cardProp['data']>()
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = (await fetchBlogs()) as { data: cardProp }
+        // console.log(res.data.data)
+        if (res.data.data.length > 0) {
+          setBlogs(res.data.data)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData()
+  }, [blogs])
   return (
     <>
       <SafeAreaView style={{ flex: 1, paddingTop: 8 }}>
@@ -19,17 +56,8 @@ export function HomeScreen() {
             {/* Fixed Header Section */}
             <YStack backgroundColor={'#FFFFFF'}>
               <XStack ai="center" jc="space-between" mb="$4">
-                <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-                  <Avatar circular size="$5">
-                    <Avatar.Image
-                      source={{
-                        uri: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR5v-SBWNA4W3KIwVOu4KhEGgfApbflgLXWsrgtTsASqs2cw-wJsyaLoQaWc7fV8jEksnDqfvA3Bv5kco0',
-                      }}
-                    />
-                  </Avatar>
-                </TouchableOpacity>
-                <Text fontSize="$6" fontWeight="bold">
-                  Breaking News
+                <Text fontSize="$6" fontWeight="bold" color="#F13B13">
+                  Engineered escape
                 </Text>
                 <Bell size={24} />
               </XStack>
@@ -104,7 +132,7 @@ export function HomeScreen() {
                   />
                 </Card.Background>
               </Card>
-              <XStack gap="$14">
+              <XStack gap="$14" flex={1} justifyContent="space-between">
                 <Text fontSize="$6" fontWeight="bold" mb="$4">
                   Recommended
                 </Text>
@@ -112,7 +140,28 @@ export function HomeScreen() {
                   See More
                 </Text>
               </XStack>
-              <NewCard />
+              <YStack gap="10">
+                {blogs?.map((item, idx) => {
+                  const title = item.attributes.title
+                  const date = item.attributes.date
+                  const image = item.attributes.image.data.attributes.formats.thumbnail.url
+                  const author = item.attributes.author
+                  const category = item.attributes.category
+
+                  return (
+                    <Link href={`/${item.id}`} key={idx}>
+                      <NewCard
+                        id={item.id}
+                        title={title}
+                        date={date}
+                        image={image}
+                        author={author}
+                        category={category}
+                      />
+                    </Link>
+                  )
+                })}
+              </YStack>
             </YStack>
           </YStack>
         </ScrollView>

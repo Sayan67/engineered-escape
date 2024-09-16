@@ -13,7 +13,6 @@ export function BookmarksScreen() {
           {bookmarks.map((blog) => (
             <View key={blog.id} style={styles.blogContainer}>
               <Text style={styles.blogTitle}>{blog.title}</Text>
-              <Text>{blog.content}</Text>
             </View>
           ))}
         </View>

@@ -1524,6 +1524,8 @@ PODS:
     - Yoga
   - RNSVG (15.3.0):
     - React-Core
+  - RNTextGradientView (0.1.7):
+    - React
   - SocketRocket (0.7.0)
   - SPAlert (4.2.0)
   - SPIndicator (1.6.4)
@@ -1615,6 +1617,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../../../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../../../node_modules/react-native-screens`)
   - RNSVG (from `../../../node_modules/react-native-svg`)
+  - RNTextGradientView (from `../../../node_modules/react-native-text-gradient`)
   - Yoga (from `../../../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1787,6 +1790,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native-screens"
   RNSVG:
     :path: "../../../node_modules/react-native-svg"
+  RNTextGradientView:
+    :path: "../../../node_modules/react-native-text-gradient"
   Yoga:
     :path: "../../../node_modules/react-native/ReactCommon/yoga"
 
@@ -1872,12 +1877,13 @@ SPEC CHECKSUMS:
   RNGestureHandler: 2282cfbcf86c360d29f44ace393203afd5c6cff7
   RNScreens: b32a9ff15bea7fcdbe5dff6477bc503f792b1208
   RNSVG: a48668fd382115bc89761ce291a81c4ca5f2fd2e
+  RNTextGradientView: 3eb4744303f801546fad35ac47a53cc82257cb25
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   SPAlert: 735da1f16a887e294719217572ce1f936d8c8782
   SPIndicator: 93e0a4fb23de51294ac48e874c0f081a5e293e4f
   sqlite3: 02d1f07eaaa01f80a1c16b4b31dfcbb3345ee01a
   Yoga: ae3c32c514802d30f687a04a6a35b348506d411f
 
-PODFILE CHECKSUM: fdd920d8221a510c3df0d631a1ebbc197925ed4e
+PODFILE CHECKSUM: a8fb1d03dc9d45a42f25b5d3d5040541f7ebb8d1
 
 COCOAPODS: 1.15.2
